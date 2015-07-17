@@ -20,7 +20,7 @@ import org.asynchttpclient.Param;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
-import org.asynchttpclient.netty.NettyAsyncHttpProvider;
+import org.asynchttpclient.netty.api.NettyAsyncHttpProvider;
 
 public class AsyncClientHttpCourt {
 //	private List<ListenableFuture<Response>> list = new ArrayList<ListenableFuture<Response>>();

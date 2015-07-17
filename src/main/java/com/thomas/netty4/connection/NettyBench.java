@@ -50,24 +50,25 @@ public class NettyBench {
     
     public void execute() {
     	//Request request = new RequestBuilder(HttpMethod.GET.name()).setUrl(URL).build();
-    	execsrv.submit(new Callable<Object>() {
-    		@Override
-    		public Object call() throws Exception {
-    			RequestBuilder rbuilder = new RequestBuilder(HttpMethod.GET.name());
-	            rbuilder.setUrl(URL);
-	            if(KEEPALIVED) {
-	            	rbuilder.setHeader(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
-	            }
-	            else {
-	            	rbuilder.setHeader(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
-	            }
-	            Request request = rbuilder.build();
-	            
-	            SyncBeginCompletionHandler handler = new SyncBeginCompletionHandler(execsrv, request, KEEPALIVED, semaphore);
-	            handler.execute();
-                return StringUtils.EMPTY;
-    		}
-		});
+    	try {
+    		for(int i =0; i < CONCURRENCY; i ++) {
+        		RequestBuilder rbuilder = new RequestBuilder(HttpMethod.GET.name());
+                rbuilder.setUrl(URL);
+                if(KEEPALIVED) {
+                	rbuilder.setHeader(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+                }
+                else {
+                	rbuilder.setHeader(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
+                }
+                Request request = rbuilder.build();
+                
+                SyncBeginCompletionHandler handler = new SyncBeginCompletionHandler(execsrv, request, KEEPALIVED, semaphore);
+                handler.execute();
+        	}
+    	}
+    	catch(Exception e) {
+    		logger.error(StringUtils.EMPTY, e);
+    	}
     }
     
     public AsyncHttpClient getAsyncHttpClient(AsyncHttpClientConfig config) {
@@ -83,6 +84,7 @@ public class NettyBench {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		logger.debug("debug logger");
     	logger.info("URL REQUEST_SIZE CONCURRENCY KEEPALIVED");
         // Configure SSL.git
         final SslContext sslCtx;
@@ -171,6 +173,7 @@ public class NettyBench {
 			super.onThrowable(t);
 			logger.error(StringUtils.EMPTY, t);
 			try {
+				postClient();
 				_handler.execute();
 			}
 			catch(Exception e) {
