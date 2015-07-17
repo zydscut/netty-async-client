@@ -1,0 +1,23 @@
+msgpack jackson gson 序列化实现的性能比较 json
+
+address 100个键值对string - string
+score 100个键值对string - integer
+11:03:55.975 [main] DEBUG com.thomas.serialize.SerializeTest - msgpack : address byte size : 2681
+11:03:55.978 [main] DEBUG com.thomas.serialize.SerializeTest - msgpack : score byte size : 534
+
+
+11:03:56.006 [main] DEBUG com.thomas.serialize.SerializeTest - jackson : address byte size : 2937
+11:03:56.006 [main] DEBUG com.thomas.serialize.SerializeTest - jackson : score byte size : 823
+
+
+11:03:56.014 [main] DEBUG com.thomas.serialize.SerializeTest - gson : address byte size : 3062
+11:03:56.014 [main] DEBUG com.thomas.serialize.SerializeTest - gson : score byte size : 1646
+
+100000次序列化和反序列化
+10:55:18.322 [main] DEBUG com.thomas.serialize.SerializeTest - tune msgpack begin : 10:55:18:221
+10:55:24.994 [main] DEBUG com.thomas.serialize.SerializeTest - tune msgpack end : 10:55:24:994
+10:55:24.994 [main] DEBUG com.thomas.serialize.SerializeTest - tune jackson begin : 10:55:24:994
+10:55:28.135 [main] DEBUG com.thomas.serialize.SerializeTest - tune jackson end : 10:55:28:135
+10:55:28.135 [main] DEBUG com.thomas.serialize.SerializeTest - tune gson begin : 10:55:28:135
+10:55:33.250 [main] DEBUG com.thomas.serialize.SerializeTest - tune gson end : 10:55:33:250
+
